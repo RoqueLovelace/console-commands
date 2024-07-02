@@ -1,8 +1,10 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const pc = require('picocolors');
 const rl = require('node:readline').createInterface({
-    input: process.stdin,
-    output: process.stdout
+
+input: process.stdin,
+output: process.stdout
 });
 
 
@@ -22,7 +24,7 @@ async function del(file) {
     try {
         stats = await fs.stat(file);
     } catch {
-        console.error(`Error: ${file} not found`);
+        console.error(pc.red(`Error: ${file} not found`));
         usage();
     }
 
@@ -35,21 +37,21 @@ async function del(file) {
 }
 
 async function delEverythingInside(dir) {
-    rl.question(`Are you sure you want to delete everything inside ${dir}? (y/n) `, async (answer) => {
-        if (answer.toLowerCase() === 'y') {
-            let files = await fs.readdir(dir);
-            for (let file of files) {
-                console.log(`Deleting ${file} ...`);            
-                await fs.rm(path.join(dir, file), { recursive: true });
-            }
+rl.question(`Are you sure you want to delete everything inside ${dir}? (y/n) `, async (answer) => {
+    if (answer.toLowerCase() === 'y') {
+        let files = await fs.readdir(dir);
+        for (let file of files) {
+            console.log(`Deleting ${file} ...`);            
+            await fs.rm(path.join(dir, file), { recursive: true });
         }
-        rl.close();
-        process.exit(0);
-    });
+    }
+    rl.close();
+    process.exit(0);
+});
 }
 
 function usage() {
-    console.log('Usage: node del.js <file>');
+    console.log(pc.yellow('Usage: node del.js <file>'));
     process.exit(1);
 }
 
@@ -63,4 +65,3 @@ async function delFile(file) {
         process.exit(0);
     });
 }
-

@@ -1,0 +1,22 @@
+{
+  "name": "console-commands",
+  "version": "1.0.0",
+  "description": "first project with node.js of RoqueLovelace",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoqueLovelace/console-commands.git"
+  },
+  "author": "RoqueLovelace",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoqueLovelace/console-commands/issues"
+  },
+  "homepage": "https://github.com/RoqueLovelace/console-commands#readme",
+  "dependencies": {
+    "picocolors": "1.0.1"
+  }
+}

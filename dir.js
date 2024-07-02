@@ -1,5 +1,6 @@
 const fs = require('node:fs/promises');
 const path = require('node:path');
+const pc = require('picocolors');
 
 const directory = process.argv[2] ?? '.';
 
@@ -10,7 +11,7 @@ async function dir(directory) { // async function because we will need to await 
     try { // try-catch block because readdir will fail if there is no such directory
         files = await fs.readdir(directory); // we need to WAIT for the promise to resolve
     } catch {
-        console.error(`Error: could not change to directory ${directory}`);
+        console.error(pc.red(`Error: could not change to directory ${directory}`));
         usage();
     }
 
@@ -20,15 +21,15 @@ async function dir(directory) { // async function because we will need to await 
         try {
             stats = await fs.stat(filePath);
         } catch {
-            console.error(`Error: could not read file ${filePath}`);
+            console.error(pc.red(`Error: could not read file ${filePath}`));
             usage();
         }
 
-        const fileType = stats.isDirectory() ? '<DIR>' : '<FILE>';
+        const fileType = stats.isDirectory() ? pc.yellow('<DIR>') : '<FILE>';
         const fileSize = stats.size.toString();
         const fileModified = stats.atime.toLocaleString();
 
-        return `${file.padEnd(30)} ${fileSize.padEnd(10)} ${fileType.padEnd(10)} ${fileModified.padEnd(30)}`;
+        return `${file.padEnd(30)} ${fileSize.padEnd(10)} ${fileType.padEnd(10)} ${fileModified.padStart(10)}`;
     });
 
     const resolvedFiles = await Promise.all(files); // wait for all promises to resolve
@@ -38,7 +39,7 @@ async function dir(directory) { // async function because we will need to await 
 }
 
 function usage() {
-    console.log('Usage: node dir.js <directory>');
+    console.log(pc.yellow('Usage: node dir.js <directory>'));
     process.exit(1);
 }
 
